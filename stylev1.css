@@ -1,0 +1,33 @@
+body {
+    background: FireBrick;
+}
+
+span {
+    border-style: solid;
+    color: orange;
+    font-size: 20px;
+    padding: 5px;
+
+}
+
+h1 {
+    font-weight: bolder;
+    text-align: center;
+    font-size: 45px;
+}
+
+a.nav-link {
+    border-style: solid;
+    color: black;
+    font-size: 20px;
+    padding: 5px;
+}
+
+img {
+    padding: 30px;
+}
+h2 {
+    font-weight: bolder;
+    text-align: center;
+    font-size: 40px;
+}
