@@ -53,3 +53,9 @@ span.left-para {
     padding: 50px;
 }
 
+span.tip {
+    color: black;
+    font-size: 20px;
+    text-align: center;  
+    padding: 50px;
+}
