@@ -2,12 +2,13 @@ body {
     background: FireBrick;
 }
 
-span.current-page {
+a.current-page {
     border-style: solid;
     color: orange;
     font-size: 20px;
     padding: 5px;
     background-color: navy;
+    margin-bottom: 15px;
 }
 
 h1 {
@@ -21,6 +22,7 @@ a.nav-link {
     color: black;
     font-size: 20px;
     padding: 5px;
+    margin-bottom: 15px;
 }
 
 img {
