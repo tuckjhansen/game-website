@@ -61,3 +61,7 @@ span.tip {
     text-align: center;  
     padding: 50px;
 }
+
+div.line-break {
+    margin-bottom: 30px;
+}
