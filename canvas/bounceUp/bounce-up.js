@@ -21,8 +21,8 @@ const ball = {
 };
 
 const bouncer = {
-  x: 255,
-  vx: 15,
+  x: 240,
+  vx: 7,
   y: 285,
   w: 120,
   h: 20,
@@ -44,21 +44,36 @@ function draw() {
   ball.x += ball.vx;
   ball.y += ball.vy;
 
-  if (ball.y + ball.vy > canvas.height) {
+  // minus one to score && (ball.y <= 20 && ball.x === bouncer.x)
+  // TODO: This should also collide
+  if (ball.y >= bouncer.y && (ball.x > bouncer.x && ball.x < bouncer.x + bouncer.w)) {
+    score += 1;
+    ball.vy = -ball.vy;
+  }
+  else if (ball.y > canvas.height) {
     score -= 1;
   }
-  
-  if (ball.y + ball.vy > canvas.height ||
-    ball.y + ball.vy < 0) {
+
+  // ceiling and floor collision
+  if (ball.y > canvas.height || ball.y < 0) {
     ball.vy = -ball.vy;
   }
 
-  if (ball.x + ball.vx > canvas.width ||
-    ball.x + ball.vx < 0) {
+  // bounces the ball of the sides
+  if (ball.x > canvas.width || ball.x < 0) {
     ball.vx = -ball.vx;
   }
 
-  
+  if (goLeft) {
+    if (bouncer.x >= 0) {
+      bouncer.x -= bouncer.vx;
+    }
+  }
+  else if (goRight) {
+    if (bouncer.x + bouncer.w <= canvas.width) {
+      bouncer.x += bouncer.vx;
+    }
+  }
 
   raf = window.requestAnimationFrame(draw);
   ctx.fillStyle = 'black'
@@ -72,14 +87,26 @@ canvas.addEventListener('mouseover', function (e) {
     started = true;
   }
 });
+let goRight = false;
+let goLeft = false;
 canvas.addEventListener('keydown', function (key) {
-  if (key.key === 'ArrowLeft') {
-    bouncer.x -= bouncer.vx;
+  console.log("keydown", key)
+  if ((key.key === 'ArrowLeft' || key.key === 'a')) {
+    goLeft = true;
   }
-  else if (key.key === 'ArrowRight') {
-    bouncer.x += bouncer.vx;
+  else if (key.key === 'ArrowRight' || key.key === 'd') {
+    goRight = true
   }
-  
 });
+
+canvas.addEventListener('keyup', function (key) {
+  if (key.key === 'ArrowLeft' || key.key === 'a') {
+    goLeft = false;
+  }
+  else if (key.key === 'ArrowRight' || key.key === 'd') {
+    goRight = false;
+  }
+});
+
 bouncer.draw();
 ball.draw();
