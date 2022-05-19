@@ -79,6 +79,11 @@ function draw() {
   ctx.fillStyle = 'black'
   ctx.font = '30px serif';
   ctx.fillText(score, 40, 40, 200);
+  if (score <= -25) {
+    ball.x = 100;
+    ball.y = 100;
+    score = 0;
+  }
 }
 
 canvas.addEventListener('mouseover', function (e) {
