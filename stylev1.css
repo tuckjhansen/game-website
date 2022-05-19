@@ -65,3 +65,7 @@ span.tip {
 div.line-break {
     margin-bottom: 30px;
 }
+
+canvas {
+    margin-bottom: 30px;
+}
