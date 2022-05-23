@@ -3,6 +3,9 @@ const ctx = canvas.getContext('2d');
 let raf;
 let score = 0;
 let started = false;
+let timeLeft = 200;
+let pause = false;
+
 
 const ball = {
   x: 100,
@@ -36,16 +39,27 @@ const bouncer = {
   }
 };
 
+// This sets the exact time of seconds
+setInterval(function () {
+  timeLeft--;
+}, 1000);
+
 function draw() {
-  ctx.fillStyle = 'rgba(255, 255, 255, .3)';
+  ctx.fillStyle = 'rgba(255, 255, 255, .5)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ball.draw();
   bouncer.draw();
+  if (pause) {
+    return;
+  }
   ball.x += ball.vx;
   ball.y += ball.vy;
-
+ 
+  if (timeLeft <= 0){
+    timeLeft = 0;
+    pause = true;
+  }
   // minus one to score && (ball.y <= 20 && ball.x === bouncer.x)
-  // TODO: This should also collide
   if (ball.y >= bouncer.y && (ball.x > bouncer.x && ball.x < bouncer.x + bouncer.w)) {
     score += 1;
     ball.vy = -ball.vy;
@@ -74,11 +88,16 @@ function draw() {
       bouncer.x += bouncer.vx;
     }
   }
-
-  raf = window.requestAnimationFrame(draw);
   ctx.fillStyle = 'black'
   ctx.font = '30px serif';
+
+  if (!started) {
+    ctx.fillText("click to start", 150, 300, 200);
+  }
+
+  raf = window.requestAnimationFrame(draw);
   ctx.fillText(score, 40, 40, 200);
+  ctx.fillText("Time remaining: " + timeLeft, 300, 40, 200);
   if (score <= -25) {
     ball.x = 100;
     ball.y = 100;
@@ -86,12 +105,16 @@ function draw() {
   }
 }
 
-canvas.addEventListener('mouseover', function (e) {
+
+
+canvas.addEventListener('mouseover' && 'click' , function (e) {
   if (!started) {
     raf = window.requestAnimationFrame(draw);
     started = true;
   }
+  
 });
+
 let goRight = false;
 let goLeft = false;
 canvas.addEventListener('keydown', function (key) {
