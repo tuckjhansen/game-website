@@ -21,13 +21,13 @@ const app = firebase.initializeApp(firebaseConfig);
 const highScoresCollection = firebase.firestore().collection('high-scores');
 // const analytics = getAnalytics(app);
 
-
+// code beggining
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let raf;
 let score = 0;
 let started = false;
-let timeLeft = 90;
+let timeLeft = 90; // 90
 let pause = false;
 let highScore = 0;
 let highestScore;
@@ -86,13 +86,18 @@ setInterval(function () {
 }, 1000);
 
 async function draw() {
-  ctx.fillStyle = 'rgba(255, 255, 255, .5)';
+
+  if (pause) {
+    ctx.fillStyle = 'black'
+    ctx.font = '30px serif';
+    ctx.fillText("click to restart, in progress", 250, 150, 250);
+    return;
+  }
+  ctx.fillStyle = 'rgba(127, 255, 0, .3)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ball.draw();
   bouncer.draw();
-  if (pause) {
-    return;
-  }
+
   ball.x += ball.vx;
   ball.y += ball.vy;
 
@@ -149,7 +154,6 @@ async function draw() {
   if (score <= -25) {
     ball.x = 100;
     ball.y = 100;
-    highScore -= 25;
     score = highScore;
   }
 }
