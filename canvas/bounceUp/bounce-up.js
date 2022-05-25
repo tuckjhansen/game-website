@@ -1,10 +1,49 @@
+// Import the functions you need from the SDKs you need
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyATJiJTJhtu1_5vYv1_FxrroYPhap8w0nM",
+  authDomain: "bounceup-1eabd.firebaseapp.com",
+  projectId: "bounceup-1eabd",
+  storageBucket: "bounceup-1eabd.appspot.com",
+  messagingSenderId: "625846739265",
+  appId: "1:625846739265:web:3e3e3a2faffdf54a8001c0",
+  measurementId: "G-1V344W9KF1"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const highScoresCollection = firebase.firestore().collection('high-scores');
+// const analytics = getAnalytics(app);
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let raf;
 let score = 0;
 let started = false;
-let timeLeft = 200;
+let timeLeft = 120;
 let pause = false;
+
+let highestScore;
+highScoresCollection.get().then(scores => {
+  scores.forEach((score) => {
+    // Get highest score
+    if (!highestScore) {
+      highestScore = score.data();
+    }
+    else if (score.data().score > highestScore.score) {
+      highestScore = score.data();
+    }
+  });
+
+  console.log('highest score', highestScore);
+  // document.getElementById('high-score-name').innerHTML = highestScore.name;
+  document.getElementById('high-score').innerHTML = highestScore.score;
+});
 
 
 const ball = {
@@ -44,7 +83,7 @@ setInterval(function () {
   timeLeft--;
 }, 1000);
 
-function draw() {
+async function draw() {
   ctx.fillStyle = 'rgba(255, 255, 255, .5)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ball.draw();
@@ -58,6 +97,10 @@ function draw() {
   if (timeLeft <= 0){
     timeLeft = 0;
     pause = true;
+    await highScoresCollection.add({
+      name: "Test",
+      score: score
+    });
   }
   // minus one to score && (ball.y <= 20 && ball.x === bouncer.x)
   if (ball.y >= bouncer.y && (ball.x > bouncer.x && ball.x < bouncer.x + bouncer.w)) {
