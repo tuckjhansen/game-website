@@ -20,14 +20,16 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const highScoresCollection = firebase.firestore().collection('high-scores');
 // const analytics = getAnalytics(app);
+
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let raf;
 let score = 0;
 let started = false;
-let timeLeft = 120;
+let timeLeft = 90;
 let pause = false;
-
+let highScore = 0;
 let highestScore;
 highScoresCollection.get().then(scores => {
   scores.forEach((score) => {
@@ -93,8 +95,8 @@ async function draw() {
   }
   ball.x += ball.vx;
   ball.y += ball.vy;
- 
-  if (timeLeft <= 0){
+
+  if (timeLeft <= 0) {
     timeLeft = 0;
     pause = true;
     await highScoresCollection.add({
@@ -105,6 +107,9 @@ async function draw() {
   // minus one to score && (ball.y <= 20 && ball.x === bouncer.x)
   if (ball.y >= bouncer.y && (ball.x > bouncer.x && ball.x < bouncer.x + bouncer.w)) {
     score += 1;
+    if (score >= highScore) {
+      highScore += 1;
+    }
     ball.vy = -ball.vy;
   }
   else if (ball.y > canvas.height) {
@@ -144,18 +149,19 @@ async function draw() {
   if (score <= -25) {
     ball.x = 100;
     ball.y = 100;
-    score = 0;
+    highScore -= 25;
+    score = highScore;
   }
 }
 
 
 
-canvas.addEventListener('mouseover' && 'click' , function (e) {
+canvas.addEventListener('mouseover' && 'click', function (e) {
   if (!started) {
     raf = window.requestAnimationFrame(draw);
     started = true;
   }
-  
+
 });
 
 let goRight = false;
