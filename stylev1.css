@@ -71,6 +71,6 @@ canvas {
 }
 
 p.attention {
-    color: cyan;
-    font-size: 10px;
+    color: firebrick;
+    font-size: 20px;
 }
