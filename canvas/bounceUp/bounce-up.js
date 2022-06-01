@@ -105,7 +105,7 @@ async function draw() {
     timeLeft = 0;
     pause = true;
     await highScoresCollection.add({
-      name: document.getElementById('name'),
+      name: document.getElementById('name').value,
       score: score,
       createDate: new Date()
     });
