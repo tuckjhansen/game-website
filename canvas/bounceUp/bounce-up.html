@@ -15,10 +15,19 @@
         <a class="current-page">Bounce Up</a>
     </div>
 
+    <form action="/action_page.php">
+        <h3>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+        </h3>
+        <p class="attention">Please enter name! this will make it able to display your name along with score.</p>
+    </form>
+    
+
     <canvas id="canvas" tabindex="1" style="border: 5px solid" width="600" height="300"></canvas>
 
     <h3>High Score:</h3>
-    <!-- <div>Name: <span id="high-score-name"></span></div> -->
+    <div>Name: <span id="high-score-name"></span></div>
     <div>Score: <span id="high-score"></span></div>
 
 </body>

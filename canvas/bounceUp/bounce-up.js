@@ -43,7 +43,7 @@ highScoresCollection.get().then(scores => {
   });
 
   console.log('highest score', highestScore);
-  // document.getElementById('high-score-name').innerHTML = highestScore.name;
+  document.getElementById('high-score-name').innerHTML = highestScore.name;
   document.getElementById('high-score').innerHTML = highestScore.score;
 });
 
@@ -105,8 +105,9 @@ async function draw() {
     timeLeft = 0;
     pause = true;
     await highScoresCollection.add({
-      name: "Test",
-      score: score
+      name: document.getElementById('name'),
+      score: score,
+      createDate: new Date()
     });
   }
   // minus one to score && (ball.y <= 20 && ball.x === bouncer.x)

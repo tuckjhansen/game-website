@@ -69,3 +69,8 @@ div.line-break {
 canvas {
     margin-bottom: 30px;
 }
+
+p.attention {
+    color: cyan;
+    font-size: 10px;
+}
