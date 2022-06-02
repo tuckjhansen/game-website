@@ -24,7 +24,7 @@ const highScoresCollection = firebase.firestore().collection('high-scores');
 
 
 
-// code beggining
+// code beginning
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let raf;
@@ -44,11 +44,20 @@ highScoresCollection.get().then(scores => {
     else if (score.data().score > highestScore.score) {
       highestScore = score.data();
     }
+
+    // if (!secondHighestScore) { // The second highest score is less than the beginning highest score so it is not accurate
+    //   secondHighestScore = score.data();
+    // }
+    // // else if (score.data().score > secondHighestScore.score && score.data().score < highestScore) {
+    // //   secondHighestScore = score.data();
+    // // }
   });
 
   console.log('highest score', highestScore);
   document.getElementById('high-score-name').innerHTML = highestScore.name;
   document.getElementById('high-score').innerHTML = highestScore.score;
+  // document.getElementById('second-highest-score').innerHTML = secondHighestScore.score
+  // document.getElementById('second-highest-score-name').innerHTML = secondHighestScore.name
 });
 
 
@@ -121,7 +130,7 @@ async function draw() {
     pause = true;
     await highScoresCollection.add({
       name: document.getElementById('name').value,
-      score: score,
+      score: highScore,
       createDate: new Date()
     });
   }
