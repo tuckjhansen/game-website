@@ -21,6 +21,9 @@ const app = firebase.initializeApp(firebaseConfig);
 const highScoresCollection = firebase.firestore().collection('high-scores');
 // const analytics = getAnalytics(app);
 
+
+
+
 // code beggining
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -29,8 +32,9 @@ let score = 0;
 let started = false;
 let timeLeft = 90; // 90
 let pause = false;
-let highScore = 0;
-let highestScore;
+let highScore = 0; // this is the current game high score
+let highestScore;  // this is for the all time high score
+
 highScoresCollection.get().then(scores => {
   scores.forEach((score) => {
     // Get highest score
@@ -82,25 +86,36 @@ const bouncer = {
 
 // This sets the exact time of seconds
 setInterval(function () {
-  timeLeft--;
+  if (started) {
+    timeLeft--;
+  }
 }, 1000);
 
 async function draw() {
-
+  // this stops the game 
   if (pause) {
     ctx.fillStyle = 'black'
     ctx.font = '30px serif';
     ctx.fillText("click to restart, in progress", 250, 150, 250);
+    canvas.addEventListener('mouseover' && 'click', function (e) {
+      score = 0;
+      started = false;
+      timeLeft = 90; // 90
+      highScore = 0; // this is the current game high score
+      pause = false;
+    });
+
     return;
   }
+  // frames and movement
   ctx.fillStyle = 'rgba(127, 255, 0, .3)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ball.draw();
   bouncer.draw();
-
   ball.x += ball.vx;
   ball.y += ball.vy;
 
+  // this sends the score, date, and name to firebase
   if (timeLeft <= 0) {
     timeLeft = 0;
     pause = true;
@@ -145,6 +160,7 @@ async function draw() {
   ctx.fillStyle = 'black'
   ctx.font = '30px serif';
 
+  // this starts the game when you click on the canvas
   if (!started) {
     ctx.fillText("click to start", 150, 300, 200);
   }
@@ -169,6 +185,7 @@ canvas.addEventListener('mouseover' && 'click', function (e) {
 
 });
 
+// this moves the paddle
 let goRight = false;
 let goLeft = false;
 canvas.addEventListener('keydown', function (key) {

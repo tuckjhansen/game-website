@@ -73,4 +73,5 @@ canvas {
 p.attention {
     color: firebrick;
     font-size: 20px;
+    text-align: left;
 }
