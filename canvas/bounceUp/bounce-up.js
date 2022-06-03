@@ -106,13 +106,13 @@ async function draw() {
     ctx.fillStyle = 'black'
     ctx.font = '30px serif';
     ctx.fillText("click to restart, in progress", 250, 150, 250);
-    canvas.addEventListener('mouseover' && 'click', function (e) {
-      score = 0;
-      started = false;
-      timeLeft = 90; // 90
-      highScore = 0; // this is the current game high score
-      pause = false;
-    });
+    // canvas.addEventListener('mouseover' && 'click', function (e) {
+    //   score = 0;
+    //   started = false;
+    //   timeLeft = 90; // 90
+    //   highScore = 0; // this is the current game high score
+    //   pause = false;
+    // });
 
     return;
   }
